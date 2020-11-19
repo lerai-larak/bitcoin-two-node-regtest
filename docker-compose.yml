@@ -1,0 +1,28 @@
+version: "3.8"
+networks:
+    minet:
+      ipam:
+        driver: default 
+        config:
+          - subnet: 172.168.0.0/16
+services:
+  node1:
+     build: .
+     image: gravitas
+     volumes:
+        - ./node1:/bitcoin/node1
+     networks:
+        minet:
+             ipv4_address: 172.168.8.102
+     ports:
+        - 18444:18444 
+        - 18445:18445 
+     expose:
+        - 18444
+        - 18445
+     command: bitcoind -regtest -datadir=node1 -debug=rpc -rpcport=18445
+
+     
+
+
+
