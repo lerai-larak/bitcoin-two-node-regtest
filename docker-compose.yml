@@ -8,8 +8,8 @@ services:
              - ./node1:/bitcoin/node1:rw
      ports:
         - 18444:18444 
-        - 18445:18445 
-     command: bitcoind -regtest -datadir=node1 -debug=rpc -rpcport=18445
+        - 18443:18443 
+     command: bitcoind -regtest -datadir=node1
 
      
 
