@@ -1,11 +1,21 @@
 version: "3.8"
 
+networks:
+  minet:
+     driver: bridge
+     ipam:
+        driver: default
+        config:
+         - subnet: 172.28.0.0/16
 services:
   node1:
      build: .
      image: gravitas
      volumes:
              - ./node1:/bitcoin/node1:rw
+     networks:
+        minet:
+           ipv4_address: 172.28.5.2
      ports:
         - 18444:18444 
         - 18443:18443 
