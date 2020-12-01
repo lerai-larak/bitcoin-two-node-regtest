@@ -22,6 +22,21 @@ services:
         - 18443:18443 
      command: bitcoind -regtest -datadir=node1
 
+  node2:
+     user: ${CURRENT_UID}
+     image: gravitas
+     volumes:
+             - ./node2:/bitcoin/node2:rw
+     networks:
+        minet:
+           ipv4_address: 172.28.0.3
+     ports:
+        - 18445:18445 
+        - 18446:18446 
+     command: bitcoind -regtest -datadir=node2
+
+     
+
      
 
 
