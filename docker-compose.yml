@@ -17,8 +17,6 @@ services:
      networks:
         minet:
            ipv4_address: 172.28.0.2
-     ports:
-        - 18443:18443 
      command: bitcoind -regtest -datadir=node1
 
   node2:
@@ -29,8 +27,6 @@ services:
      networks:
         minet:
            ipv4_address: 172.28.0.3
-     ports:
-        - 18444:18444 
      command: bitcoind -regtest -datadir=node2
 
      
