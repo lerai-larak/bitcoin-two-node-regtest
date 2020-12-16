@@ -6,7 +6,7 @@ networks:
      ipam:
         driver: default
         config:
-         - subnet: 172.28.0.0/16
+         - subnet: 10.0.0.0/16
 services:
   node1:
      user: ${CURRENT_UID}
@@ -16,7 +16,7 @@ services:
              - ./node1:/bitcoin/node1:rw
      networks:
         minet:
-           ipv4_address: 172.28.0.2
+           ipv4_address: 10.0.0.2
      command: bitcoind -regtest -datadir=node1
 
   node2:
@@ -26,7 +26,7 @@ services:
              - ./node2:/bitcoin/node2:rw
      networks:
         minet:
-           ipv4_address: 172.28.0.3
+           ipv4_address: 10.0.0.3
      command: bitcoind -regtest -datadir=node2
 
      
