@@ -11,7 +11,7 @@ services:
   node1:
      user: ${CURRENT_UID}
      build: .
-     image: gravitas
+     image: gravity
      volumes:
              - ./node1:/bitcoin/node1:rw
      networks:
@@ -21,7 +21,7 @@ services:
 
   node2:
      user: ${CURRENT_UID}
-     image: gravitas
+     image: gravity
      volumes:
              - ./node2:/bitcoin/node2:rw
      networks:
