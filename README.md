@@ -50,20 +50,28 @@ to get the same details for `node2` simply change the ip address to `10.0.0.3`
 
 #### Mining blocks
 
-Before generating blocks that will make coins available, we need to get an address on `node1` where they will be sent.
+Here, we will use `node1` to generate the blocks.
+
+Before generating blocks that will make coins available, we need to get an address where these coins will be sent.
 ```
 $ bitcoin-cli -regtest -rpcconnect=10.0.0.2 getnewaddress
-
-$ bcrt1qn3vngrv082tnaxu7ek9juty442m2dw5kxzpu8k
+$ **bcrt1qn3vngrv082tnaxu7ek9juty442m2dw5kxzpu8k**
 
 ```
-Copy this address for the next command.
+Copy the output address for the next command.
 
-Now we generate the blocks and send them to our new address, on `node1`:
+Now we generate(mine) 50 blocks and send the block reward coins to our previously created address:
 ```
 bitcoin-cli -regtest -rpcconnect=10.0.0.2 generatetoaddress 50 bcrt1qn3vngrv082tnaxu7ek9juty442m2dw5kxzpu8k
 
 ```
+Now, if you check the block info on `node1` you will see that it contains 50 blocks
+```
+
+$ bitcoin-cli -regtest -rpcconnect=10.0.0.3  getblockchaininfo
+
+```
+Also, since the two nodes are connected to each other, `node2` was synched and will aslo show it has 50 blocks in its chain.
 
 
 #### Generating an address
