@@ -12,7 +12,27 @@ Install [Docker](https://www.docker.com/get-started): The nodes are created as D
 
 Install [Bitcoin Core](https://bitcoin.org/en/download) on you local machine: You need a local installation to be able to connect to the 'remote' nodes using the `bitcoin-cli` tool which comes with bitcoin. 
 
-Clone repo and start the nodes. Use the script to start and stop the nodes.
+After installtion, locate the `bitcoin.conf` file. (typically, this will be in a bitcoin directory in your home dir[/home/<yourhomedir>/.bitcoin]). Inside the file add the athentication credentials that will allow you to connect to the two nodes though RPC.
+```
+[regtest]
+rpcpassword=q7EDoyrwWpBVM1YKKcar6oiPtN5O3XRUPYpN0PYCjTk
+rpcauth=user:cc459cb84ea896de7a10b108de879f02$906c2227b3b868d8ac627e85776f0970925c6bf6f67a69c6457c04a82a1fdfc0
+  
+```
+
+Clone repo to your local machine to start working with the nodes: The `control_nodes.sh` script provides an easy way of managing the nodes.
+
+To start the nodes, from the repo directory, run the command:
+```
+./control_nodes.sh start
+
+```
+
+To stop the nodes, from the repo directory, run the command:
+```
+./control_nodes.sh stop
+
+```
 
 # Examples
 
