@@ -3,6 +3,8 @@ This project aims at understanding bitcoin fundamentals by trying the out basic 
 
 Using docker, it creates two bitcoin nodes which you can connect to from your local machine using bitcoin's RPC interface. With this setup which simulates remote nodes, your locally installed `bitcoin-cli` just connects to the nodes and issues commands. Your local bitcoin installation remains untouched and you can easily drop the docker container holding the nodes and start again from scratch. 
 
+**Warning** this setup is for learning purposes only and therefore uses the `regtest` mode of running bitcoin. It is strongly advised that you do not try carrying out real transactions on using this setup.
+
 The `control_nodes.sh` script file contains functions that allow you to start, stop and remove the nodes.
 
 
@@ -12,7 +14,7 @@ Install [Docker](https://www.docker.com/get-started): The nodes are created as D
 
 Install [Bitcoin Core](https://bitcoin.org/en/download) on you local machine: You need a local installation to be able to connect to the 'remote' nodes using the `bitcoin-cli` tool which comes with bitcoin. 
 
-After installtion, locate the `bitcoin.conf` file. (typically, this will be in a bitcoin directory in your home dir[/home/<yourhomedir>/.bitcoin]). Inside the file add the athentication credentials that will allow you to connect to the two nodes though RPC.
+After installtion, locate the `bitcoin.conf` file. Normally, this will be in a `.bitcoin` directory inside your `home` directory. (`/home/<yourhomedir>/.bitcoin`). Inside the file, add the athentication credentials that will allow you to connect to the two nodes though RPC.
 ```
 [regtest]
 rpcpassword=q7EDoyrwWpBVM1YKKcar6oiPtN5O3XRUPYpN0PYCjTk
