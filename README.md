@@ -54,6 +54,8 @@ Before generating blocks that will make coins available, we need to get an addre
 ```
 $ bitcoin-cli -regtest -rpcconnect=10.0.0.2 getnewaddress
 
+$ bcrt1qn3vngrv082tnaxu7ek9juty442m2dw5kxzpu8k
+
 ```
 Copy this address for the next command.
 
