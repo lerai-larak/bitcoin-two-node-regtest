@@ -14,7 +14,7 @@ Install [Docker](https://www.docker.com/get-started): The nodes are created as D
 
 Install [Bitcoin Core](https://bitcoin.org/en/download) on you local machine: You need a local installation to be able to connect to the 'remote' nodes using the `bitcoin-cli` tool which comes with bitcoin. 
 
-After installtion, locate the `bitcoin.conf` file. Normally, this will be in a `.bitcoin` directory inside your `home` directory. (`/home/<yourhomedir>/.bitcoin`). Inside the file, add the athentication credentials that will allow you to connect to the two nodes though RPC.
+After installation, locate the `bitcoin.conf` file. Normally, this will be in a `.bitcoin` directory inside your `home` directory. (`/home/<yourhomedir>/.bitcoin`). Inside the file, add the athentication credentials that will allow you to connect to the two nodes though RPC.
 ```
 [regtest]
 rpcpassword=q7EDoyrwWpBVM1YKKcar6oiPtN5O3XRUPYpN0PYCjTk
@@ -35,10 +35,20 @@ To stop the nodes, from the repo directory, run the command:
 ./control_nodes.sh stop
 
 ```
+#### Connecting to a node
+To send a command to a node you will need to specify the node IP address followed by the command itself. For instance, to get the block chain details on `node1`:
 
-# Examples
+```
+bitcoin-cli -regtest -rpcconnect=10.0.0.2  getblockchaininfo
+
+```
+
+to get the same details for `node2` simply change the ip address to `10.0.0.3`
+# 
 
 #### Mining blocks
+
+To get 
 
 #### Generating an address
 
