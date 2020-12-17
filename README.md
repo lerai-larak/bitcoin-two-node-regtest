@@ -26,20 +26,22 @@ Clone repo to your local machine to start working with the nodes: The `control_n
 
 To start the nodes, from the repo directory, run the command:
 ```
-./control_nodes.sh start
+$ ./control_nodes.sh start
 
 ```
 
 To stop the nodes, from the repo directory, run the command:
 ```
-./control_nodes.sh stop
+$ ./control_nodes.sh stop
 
 ```
+## Getting Started
+
 #### Connecting to a node
 To send a command to a node you will need to specify the node IP address followed by the command itself. For instance, to get the block chain details on `node1`:
 
 ```
-bitcoin-cli -regtest -rpcconnect=10.0.0.2  getblockchaininfo
+$ bitcoin-cli -regtest -rpcconnect=10.0.0.2  getblockchaininfo
 
 ```
 
@@ -48,7 +50,19 @@ to get the same details for `node2` simply change the ip address to `10.0.0.3`
 
 #### Mining blocks
 
-To get 
+Before generating blocks that will make coins available, we need to get an address on `node1` where they will be sent.
+```
+$ bitcoin-cli -regtest -rpcconnect=10.0.0.2 getnewaddress
+
+```
+Copy this address for the next command.
+
+Now we generate the blocks and send them to our new address, on `node1`:
+```
+bitcoin-cli -regtest -rpcconnect=10.0.0.2 generatetoaddress 50 bcrt1qn3vngrv082tnaxu7ek9juty442m2dw5kxzpu8k
+
+```
+
 
 #### Generating an address
 
