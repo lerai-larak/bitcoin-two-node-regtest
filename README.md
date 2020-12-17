@@ -38,6 +38,11 @@ $ ./control_nodes.sh stop
 ## Getting Started
 
 #### Connecting to a node
+Both nodes are running on a custom created docker network named `minet` and have their IPs configured as follows:
+
+`node1: 10.0.0.2`
+`node2: 10.0.0.3`
+
 To send a command to a node you will need to specify the node IP address followed by the command itself. For instance, to get the block chain details on `node1`:
 
 ```
