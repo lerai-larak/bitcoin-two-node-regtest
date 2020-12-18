@@ -61,7 +61,7 @@ Here, we will use `node1` to generate the blocks.
 Before generating blocks that will make coins available, we need to get an address where these coins will be sent.
 ```
 $ bitcoin-cli -regtest -rpcconnect=10.0.0.2 getnewaddress
-$ **bcrt1qn3vngrv082tnaxu7ek9juty442m2dw5kxzpu8k**
+$ bcrt1qn3vngrv082tnaxu7ek9juty442m2dw5kxzpu8k
 
 ```
 Copy the output address for the next command.
@@ -77,12 +77,48 @@ Now, if you check the block info on `node1` you will see that it contains 50 blo
 $ bitcoin-cli -regtest -rpcconnect=10.0.0.3  getblockchaininfo
 
 ```
-Also, since the two nodes are connected to each other, `node2` was synched and will aslo show it has 50 blocks in its chain.
+With the two nodes are connected to each other, `node2` was synched and will aslo show it has 50 blocks in its chain. 
+However, if you checked the wallet balance on node1:
+`$ bitcoin-cli -regtest -rpcconnect=10.0.0.2 getbalance` you will notice that it reads 0.000. This is because in the `regtest` mode, 100 confirmations are needed to have a reward of 50 bitcoin. So, the coins will be received on the 101 confirmation. Run the `generateblockstoaddress` command again to add another 51 blocks. Now checking the balance should show a reward of 50 bitcoin.
 
 
-#### Generating an address
+#### Sending 10 bitcoin from node1 to an address created on node2.
+Generate an address to receive the coins on node2:
+```
+$ bitcoin-cli -regtest -rpcconnect=10.0.0.3 getnewaddress
+$ bcrt1q2wuhwm3kexxtxk3pk4cx9pk4se49sevsku35xn
+```
+Send 10 bitcoin to the address:
+```
+bitcoin-cli -regtest -rpcconnect=10.0.0.2 sendtoaddress bcrt1q2wuhwm3kexxtxk3pk4cx9pk4se49sevsku35xn 10.00
 
-#### Sending coins to an address
+$ f835a338f1a520a3a762c177f0b689e37469a8d17336c7683dc53f31b6790d1f //returned transaction id
+```
+
+To see the received coins on node 2:
+```
+$ bitcoin-cli -regtest -rpcconnect=10.0.0.2 listunspent 0
+$ [
+  {
+    "txid": "f835a338f1a520a3a762c177f0b689e37469a8d17336c7683dc53f31b6790d1f",
+    "vout": 0,
+    "address": "bcrt1qjykwyy6jdc52h6ne69nqtn0rq8kqx50t39u8v9",
+    "label": "",
+    "scriptPubKey": "0014912ce213526e28abea79d16605cde301ec0351eb",
+    "amount": 10.00000000,
+    "confirmations": 0,
+    "spendable": true,
+    "solvable": true,
+    "desc": "wpkh([8ae1d7e7/0'/0'/1']020bb1f87371fc32e4139b075d565b626689d5e378d709ed409e6170843ca77c1a)#s6ypfjmp",
+    "safe": false
+  }
+]
+```
+Notice that the transaction id (`txid`) is the same as what the `sendtoaddress` command returned.
+
+
+
+
 
 #### Creating a multisig transaction
 
