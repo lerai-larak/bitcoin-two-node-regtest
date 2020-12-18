@@ -68,7 +68,7 @@ Copy the output address for the next command.
 
 Now we generate(mine) 50 blocks and send the block reward coins to our previously created address:
 ```
-bitcoin-cli -regtest -rpcconnect=10.0.0.2 generatetoaddress 50 bcrt1qn3vngrv082tnaxu7ek9juty442m2dw5kxzpu8k
+$ bitcoin-cli -regtest -rpcconnect=10.0.0.2 generatetoaddress 50 bcrt1qn3vngrv082tnaxu7ek9juty442m2dw5kxzpu8k
 
 ```
 Now, if you check the block info on `node1` you will see that it contains 50 blocks
@@ -114,7 +114,17 @@ $ [
   }
 ]
 ```
-Notice that the transaction id (`txid`) is the same as what the `sendtoaddress` command returned.
+Notes:
+`listunspent` is provided with a argument 0 so that it includes unconfirmed trnsactions (Notice the confirmations property in the output). Otherwise the result would be an empty list. For this transaction to be confirmed, we would need to generate/mine a block that adds it in.
+Running `listunspent` on node1 shows that it now has a balance of 39.99997180 bitcoin. Also the `txid` is the same for both outputs since it a reference to the same transaction.
+
+Create 1 block to confirm the above transaction:
+
+```
+bitcoin-cli -regtest -rpcconnect=10.0.0.2 generatetoaddress 1 bcrt1qn3vngrv082tnaxu7ek9juty442m2dw5kxzpu8k
+```
+
+
 
 
 
