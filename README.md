@@ -124,6 +124,46 @@ Create 1 block to confirm the above transaction:
 bitcoin-cli -regtest -rpcconnect=10.0.0.2 generatetoaddress 1 bcrt1qn3vngrv082tnaxu7ek9juty442m2dw5kxzpu8k
 ```
 
+#### Creating a raw transaction
+You can also send funds to an address using `createrawrtansaction`
+
+Create a new address on node2 to receive coins and assign the address to a shell variable as below:
+```
+NEW_ADDR=$(bitcoin-cli -regtest -rpcconnect=10.0.0.3 getnewaddress)
+
+```
+Use `createrawtransaction` from node1 to define a new transaction. Note: the output of this command is the hex representation of the transaction. It has not been signed or broadcasted to the network.
+
+```
+$ bitcoin-cli -regtest -rpcconnect=10.0.0.2 createrawtransaction "[{\"txid\":\"$COINBASE_TR_ID\",\"vout\":0}]" "[{\"$NEW_ADDR\":25.00}]"
+$ 020000000184ce5508c12bd23a197cc898241a28c21541af9d2383
+  3aad8b9eb29384cd60190000000000ffffffff0100f90295000000
+  00160014f39565de575f67dc0010bed620f99a84174dbb0800000000
+  
+$ TX_HEX = 020000000184ce5508c12bd23a197cc898241a28c21541af9d23833
+           aad8b9eb29384cd60190000000000ffffffff0100f9029500000000
+           160014f39565de575f67dc0010bed620f99a84174dbb0800000000 //assign this out transaction hex string to a shell variable for later use.
+
+```
+In the above, the transaction will send 25.00 bitcoin to the address and since a change output is not specified, the fee will be the remaining coins in the input. Here, the input that 50 bitcoins and so the fee is a whooping 25 bitcoin!. to create an change output we would have had to specify that.
+
+Next, sign the transaction.
+
+```
+bitcoin-cli -regtest -rpcconnect=10.0.0.2 signrawtransactionwithwallet $TX_HEX
+{
+  "hex": "0200000000010184ce5508c12bd23a197cc898241a28c21541af9d23833aad8b9eb29384cd60190000000000ffffffff
+          0100f9029500000000160014f39565de575f67dc0010bed620f99a84174dbb0802473044022029eaedd63cf776d93ff9
+          b58d4ebd7aa13b8bbf82e6816818e6e680f911e1d97402207da1820a566dd8b37702a8a653c23d381a89c4f21bcfd26f
+          3588d1d05080978601210266f7a6856c5cc7fad9a398adfc9852ca238c38a0504810e6b6491112b277307600000000",
+  "complete": true
+}
+
+//assing the above singned transaction hex to a shell variable
+SIGNED_RAW_TX = 0200000000010184ce5508c12bd...
+```
+
+
 
 
 
