@@ -125,32 +125,36 @@ bitcoin-cli -regtest -rpcconnect=10.0.0.2 generatetoaddress 1 bcrt1qn3vngrv082tn
 ```
 
 #### Creating a raw transaction
-You can also send funds to an address using `createrawrtansaction`
+Using `createrawrtansaction`, you have more control when sending coins to an address, however you would be advised not not use this on the mainnet due to the potential of losing funds.
 
 Create a new address on node2 to receive coins and assign the address to a shell variable as below:
 ```
-NEW_ADDR=$(bitcoin-cli -regtest -rpcconnect=10.0.0.3 getnewaddress)
-
+RECEIVE_ADDR=$(bitcoin-cli -regtest -rpcconnect=10.0.0.3 getnewaddress)
 ```
+Create a shell variable to hold the change address, this is the sender's address that should receive the balance of (input-output). If this address is not specified, the balance is sent as a fee for the transaction. for instance, if we have 20 bitcoins and specify that we want to send 17 bitcoin without adding our address for the change, the 3 bitcoins will be charged as fee for the transaction.
+```
+CHANGE_ADDR=$(bitcoin-cli -regtest -rpcconnect=10.0.0.2 getnewaddress)
+```
+
 Use `createrawtransaction` from node1 to define a new transaction. Note: the output of this command is the hex representation of the transaction. It has not been signed or broadcasted to the network.
 
 ```
-$ bitcoin-cli -regtest -rpcconnect=10.0.0.2 createrawtransaction "[{\"txid\":\"$COINBASE_TR_ID\",\"vout\":0}]" "[{\"$NEW_ADDR\":25.00}]"
+$ bitcoin-cli -regtest -rpcconnect=10.0.0.2 createrawtransaction '''[{"txid":"$COINBASE_TR_ID","vout":0}]''' '{"$RECEIVE_ADDR":25.00,"CHANGE_ADDR":23.999}]"
 $ 020000000184ce5508c12bd23a197cc898241a28c21541af9d2383
   3aad8b9eb29384cd60190000000000ffffffff0100f90295000000
   00160014f39565de575f67dc0010bed620f99a84174dbb0800000000
   
-$ TX_HEX = 020000000184ce5508c12bd23a197cc898241a28c21541af9d23833
+$ RAW_TX = 020000000184ce5508c12bd23a197cc898241a28c21541af9d23833
            aad8b9eb29384cd60190000000000ffffffff0100f9029500000000
            160014f39565de575f67dc0010bed620f99a84174dbb0800000000 //assign this out transaction hex string to a shell variable for later use.
 
 ```
-In the above, the transaction will send 25.00 bitcoin to the address and since a change output is not specified, the fee will be the remaining coins in the input. Here, the input that 50 bitcoins and so the fee is a whooping 25 bitcoin!. to create an change output we would have had to specify that.
+In the above, the transaction will send 25.00 bitcoin to the address a change output is 23.999, the fee will therefore be 0.001. 
 
 Next, sign the transaction.
 
 ```
-bitcoin-cli -regtest -rpcconnect=10.0.0.2 signrawtransactionwithwallet $TX_HEX
+bitcoin-cli -regtest -rpcconnect=10.0.0.2 signrawtransactionwithwallet $RAW_TX
 {
   "hex": "0200000000010184ce5508c12bd23a197cc898241a28c21541af9d23833aad8b9eb29384cd60190000000000ffffffff
           0100f9029500000000160014f39565de575f67dc0010bed620f99a84174dbb0802473044022029eaedd63cf776d93ff9
@@ -160,15 +164,13 @@ bitcoin-cli -regtest -rpcconnect=10.0.0.2 signrawtransactionwithwallet $TX_HEX
 }
 
 //assing the above singned transaction hex to a shell variable
-SIGNED_RAW_TX = 0200000000010184ce5508c12bd...
+SIGNED_TX = 0200000000010184ce5508c12bd...
 ```
 
-
-
-
-
-
-
+Now send the transaction.
+```
+bitcoin-cli -regtest -rpcconnect=10.0.0.2 sendrawtransaction $SIGNED_TX
+```
 
 #### Creating a multisig transaction
 
