@@ -1,4 +1,4 @@
-## bitcoin-two-node-regtest
+## Docker Based Bitcoin Nodes (A test network of two nodes)
 This project aims at understanding bitcoin fundamentals by trying the out basic operations in the bitcoin system from the terminal. 
 
 Using docker, it creates two bitcoin nodes which you can connect to from your local machine using bitcoin's RPC interface. With this setup which simulates remote nodes, your locally installed `bitcoin-cli` just connects to the nodes and issues commands. Your local bitcoin installation remains untouched and you can easily drop the docker container holding the nodes and start again from scratch. 
