@@ -184,7 +184,7 @@ To create the multisig transaction, we first need to create a multisig address. 
 $address1=bitcoin-cli -regtest -rpcconnect=10.0.0.2 getnewaddress
 $address2=bitcoin-cli -regtest -rpcconnect=10.0.0.3 getnewaddress
 ```
-To creare the multisig address, we need the public keys contained in these addresses.
+To create the multisig address, we need the public keys contained in these addresses.
 
 ```
 $ bitcoin-cli -regtest -rpcconnect=10.0.0.2 getaddressinfo $address1
@@ -199,7 +199,7 @@ $ bitcoin-cli -regtest -rpcconnect=10.0.0.2 getaddressinfo $address1
   "iswitness": true,
   "witness_version": 0,
   "witness_program": "c3fabd346e28af3d49b4f4402de8e44a4748c9f3",
-  #### "pubkey": "03449f7c5140f23a7b34d1d1628265cc7bdbe133f4fcd0f08f6079414fb2c29b52",
+  "pubkey": "03449f7c5140f23a7b34d1d1628265cc7bdbe133f4fcd0f08f6079414fb2c29b52",
   "ischange": false,
   "timestamp": 1608153032,
   "hdkeypath": "m/0'/0'/5'",
@@ -210,3 +210,25 @@ $ bitcoin-cli -regtest -rpcconnect=10.0.0.2 getaddressinfo $address1
   ]
 }
 
+$ bitcoin-cli -regtest -rpcconnect=10.0.0.3 getaddressinfo $address2
+{
+  "address": "bcrt1qfsaahunga9h9ez3a9cp44u05cpz7gwq4rx2gnm",
+  "scriptPubKey": "00144c3bdbf268e96e5c8a3d2e035af1f4c045e43815",
+  "ismine": true,
+  "solvable": true,
+  "desc": "wpkh([8ae1d7e7/0'/0'/3']02e42161dd6623b4d12083c1c2e21d75f3abd57448470599493329d53d8e02b6d8)#zkurn8j3",
+  "iswatchonly": false,
+  "isscript": false,
+  "iswitness": true,
+  "witness_version": 0,
+  "witness_program": "4c3bdbf268e96e5c8a3d2e035af1f4c045e43815",
+  "pubkey": "02e42161dd6623b4d12083c1c2e21d75f3abd57448470599493329d53d8e02b6d8",
+  "ischange": false,
+  "timestamp": 1608152258,
+  "hdkeypath": "m/0'/0'/3'",
+  "hdseedid": "0baa00630c55e2dbe79c2faf7b3c0f05d550c9a3",
+  "hdmasterfingerprint": "8ae1d7e7",
+  "labels": [
+    ""
+  ]
+}
