@@ -174,4 +174,39 @@ bitcoin-cli -regtest -rpcconnect=10.0.0.2 sendrawtransaction $SIGNED_TX
 
 #### Creating a multisig transaction
 
+In general, a multisig transaction means that funds are sent to multiple addresses and, subsequently, each of the owners of the receiving addresses have to sign a the spending transaction to reuse the funds. In technical terms it is a way that allows more than one person to create a digital signature. Multisig transactions are described as m-of-n in that, out of a possible n singnatures m can be used to unlock the funds. (where m < n).
+
+To create the multisig transaction, we first need to create a multisig address. For that, we need the addresses of the recepients (in this case, we create a 2-of-2 multisig address)
+
+##### Get the addresses to be used 
+
+```
+$address1=bitcoin-cli -regtest -rpcconnect=10.0.0.2 getnewaddress
+$address2=bitcoin-cli -regtest -rpcconnect=10.0.0.3 getnewaddress
+```
+To creare the multisig address, we need the public keys contained in these addresses.
+
+```
+$ bitcoin-cli -regtest -rpcconnect=10.0.0.2 getaddressinfo $address1
+{
+  "address": "bcrt1qc0at6drw9zhn6jd573qzm68yffr53j0nldacds",
+  "scriptPubKey": "0014c3fabd346e28af3d49b4f4402de8e44a4748c9f3",
+  "ismine": true,
+  "solvable": true,
+  "desc": "wpkh([0346d5c9/0'/0'/5']03449f7c5140f23a7b34d1d1628265cc7bdbe133f4fcd0f08f6079414fb2c29b52)#3vjan8dd",
+  "iswatchonly": false,
+  "isscript": false,
+  "iswitness": true,
+  "witness_version": 0,
+  "witness_program": "c3fabd346e28af3d49b4f4402de8e44a4748c9f3",
+  #### "pubkey": "03449f7c5140f23a7b34d1d1628265cc7bdbe133f4fcd0f08f6079414fb2c29b52",
+  "ischange": false,
+  "timestamp": 1608153032,
+  "hdkeypath": "m/0'/0'/5'",
+  "hdseedid": "d4a5703c7058842f72e4e4a2be053be419573bab",
+  "hdmasterfingerprint": "0346d5c9",
+  "labels": [
+    ""
+  ]
+}
 
