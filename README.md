@@ -232,3 +232,42 @@ $ bitcoin-cli -regtest -rpcconnect=10.0.0.3 getaddressinfo $address2
     ""
   ]
 }
+```
+using the pubkeys from the two commands above, we can then create the address as follows:
+
+```
+bitcoin-cli -regtest -rpcconnect=10.0.0.2 createmultisig 2 "[\"03449f7c5140f23a7b34d1d1628265cc7bdbe133f4fcd0f08f6079414fb2c29b52\",\"03449f7c5140f23a7b34d1d1628265cc7bdbe133f4fcd0f08f6079414fb2c29b52\"]"
+{
+  "address": "2N4D6aU8NH7faRbVnkwCzgdgXuz36AL8CWq",
+  "redeemScript": "522103449f7c5140f23a7b34d1d1628265cc7bdbe133f4fcd0f08f6079414fb2c29b522103449f7c5140f23a7b34d1d1628265cc7bdbe133f4fcd0f08f6079414fb2c29b5252ae",
+  "descriptor": "sh(multi(2,03449f7c5140f23a7b34d1d1628265cc7bdbe133f4fcd0f08f6079414fb2c29b52,03449f7c5140f23a7b34d1d1628265cc7bdbe133f4fcd0f08f6079414fb2c29b52))#v7m4pjzv"
+}
+
+```
+Notice that we specify the required keys as 2 and also provide the keys as required by the `createmultisig` command. It produces an address that we can then use to send funds to.
+
+Create the transaction:
+```
+rawhextx=$(bitcoin-cli -regtest -rpcconnect=10.0.0.2 createrawtransaction '''[{"txid":"04033faa96cbb85858e78b690bb076492eff073bcb3f83148284cf687800e3ba", "vout":1}]''' '{"2N4D6aU8NH7faRbVnkwCzgdgXuz36AL8CWq":40,"bcrt1qn3vngrv082tnaxu7ek9juty442m2dw5kxzpu8k":8.998}')
+```
+The receiving address added in the inputs is the multisig address generated in the previous step. Next sign the transaction.
+
+```
+bitcoin-cli -rpcconnect=10.0.0.2 -regtest signrawtransactionwithwallet $rawhextx 
+
+{
+  "hex": "02000000000101bae3007868cf848214833fcb3b07ff2e4976b00b698be75858b8cb96aa3f03040100000000ffffffff0200286bee0000000017a91478425d9a07f39c38e5f070a5925428287e2a9f5f87c0dba135000000001600149c59340d8f3a973e9b9ecd8b2e2c95aab6a6ba960247304402201d06a59d701340e4382f5082a4fc003cce0dc71b9dc5e8f344e959eec538831502206391be74b221d3b204d35f6be41dbb12da13cec4f2903897ce26d45d594b9aee01210266f7a6856c5cc7fad9a398adfc9852ca238c38a0504810e6b6491112b277307600000000",
+  "complete": true
+}
+
+```
+
+Using the hash from the signed transaction, send the transaction to the network:
+
+```
+bitcoin-cli -rpcconnect=10.0.0.2 -regtest sendrawtransaction "02000000000101bae3007868cf848214833fcb3b07ff2e4976b00b698be75858b8cb96aa3f03040100000000ffffffff0200286bee0000000017a91478425d9a07f39c38e5f070a5925428287e2a9f5f87c0dba135000000001600149c59340d8f3a973e9b9ecd8b2e2c95aab6a6ba960247304402201d06a59d701340e4382f5082a4fc003cce0dc71b9dc5e8f344e959eec538831502206391be74b221d3b204d35f6be41dbb12da13cec4f2903897ce26d45d594b9aee01210266f7a6856c5cc7fad9a398adfc9852ca238c38a0504810e6b6491112b277307600000000"
+
+```
+
+
+
